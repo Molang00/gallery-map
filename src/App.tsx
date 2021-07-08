@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import NaverMap from './componet/map/naverMap';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -19,8 +20,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <NaverMap />
     </div>
   );
-}
+};
 
 export default App;

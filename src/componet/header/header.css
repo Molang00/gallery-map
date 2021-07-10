@@ -1,0 +1,18 @@
+.header {
+  background: #343a40;
+  color: #ffc107;
+  height: 4rem;
+  position: absolute fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.title {
+  line-height: 4rem;
+  font-weight: bold;
+  font-size: 2rem;
+}

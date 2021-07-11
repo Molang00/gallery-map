@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { RenderAfterNavermapsLoaded, NaverMap } from 'react-naver-maps';
 import './naverMapView.css';
 import { useEffect } from 'react';
 
 const NaverMapView: React.FC = () => {
-  const [initLocation, setInitLocation] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState({
-    lat: 36.555583405684345,
-    lng: 127.94091457139334,
-  });
+  const [centerLocation, setCenterLocation] = useState(
+    new naver.maps.LatLng(36.555583405684345, 127.94091457139334),
+  );
   const [messages, setMessages] = useState([
     // "2020.06.30 Tue 😍 1st day",
     'test message',
@@ -27,14 +24,12 @@ const NaverMapView: React.FC = () => {
   const getCurrentLocation = () => {
     const success = position => {
       const { latitude, longitude } = position.coords;
-      setCurrentLocation({
-        lat: latitude,
-        lng: longitude,
-      });
-      setInitLocation(true);
+      setCenterLocation(new naver.maps.LatLng(latitude, longitude));
+      console.log(naverMap);
+      naverMap?.setCenter(centerLocation);
       setMessages([
         ...messages,
-        'currentLocation is ' + currentLocation.lat + ',' + currentLocation.lng,
+        'currentLocation is ' + centerLocation.lat + ',' + centerLocation.lng,
       ]);
     };
 
@@ -45,29 +40,65 @@ const NaverMapView: React.FC = () => {
     const getCurrentLocationByIp = async () => {
       const response = await axios.post('https://geolocation-db.com/json/');
       console.log(response.data);
-      setCurrentLocation({
-        lat: response.data.latitude,
-        lng: response.data.longitude,
-      });
-      setInitLocation(true);
+      const latitude = response.data.latitude;
+      const longitude = response.data.longitude;
+      setCenterLocation(new naver.maps.LatLng(latitude, longitude));
+      console.log(naverMap);
+      naverMap?.setCenter(centerLocation);
       messages.push(
-        'currentLocation is ' + currentLocation.lat + ',' + currentLocation.lng,
+        'currentLocation is ' + centerLocation.lat + ',' + centerLocation.lng,
       );
     };
 
     navigator.geolocation.getCurrentPosition(success, error);
   };
 
-  if (initLocation == false) getCurrentLocation();
+  const [naverMap, setNaverMap] = useState<naver.maps.Map>();
+  useEffect(() => {
+    const initMap = () => {
+      setNaverMap(
+        new naver.maps.Map('react-naver-map', {
+          center: centerLocation,
+          zoom: 14,
+          scaleControl: false,
+          logoControl: true,
+          logoControlOptions: {
+            position: naver.maps.Position.LEFT_TOP,
+          },
+          mapDataControl: false,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+            style: naver.maps.MapTypeControlStyle.BUTTON,
+            position: naver.maps.Position.RIGHT_TOP,
+          },
+        }),
+      );
+    };
+    initMap();
+    getCurrentLocation();
+  }, []);
+
+  useEffect(() => {
+    const setMapCenter = () => {
+      if (naverMap != undefined) {
+        naverMap.setCenter(centerLocation);
+        console.log(centerLocation);
+
+        new naver.maps.Marker({
+          position: centerLocation,
+          map: naverMap,
+        });
+      }
+    };
+    setMapCenter();
+  }, [naverMap, centerLocation]);
 
   return (
     <React.Fragment>
       <div className="message">
         <div className="message-content">{messages[messageId]}</div>
       </div>
-      <RenderAfterNavermapsLoaded clientId={'ik2vur2psa'}>
-        <NaverMap center={currentLocation} defaultZoom={14} />
-      </RenderAfterNavermapsLoaded>
+      <div id="react-naver-map"></div>
     </React.Fragment>
   );
 };

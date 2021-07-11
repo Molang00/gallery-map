@@ -6,7 +6,7 @@ const SideMenu: React.FC = () => {
   return (
     <Menu>
       <a className="menu-item" href="/">
-        Home
+        Map
       </a>
 
       <a className="menu-item" href="/pictures">

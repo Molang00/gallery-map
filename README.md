@@ -45,12 +45,20 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# Docker 실행
+# Docker
 
-## Docker build
+## Docker 실행
 
-`docker build -t nginx-react:0.1 .`
+`docker-compose up`
 
-## Docker run
+`docker-comopse up -d --build`
 
-`docker run -d --name my-react-app -p 3000:3000 nginx-react:0.1`
+## Docker 정지
+
+`docker-compose stop`
+
+## Docker 실행 상태 확인
+
+`docker ps`
+
+`docker images`

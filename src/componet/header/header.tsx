@@ -1,5 +1,4 @@
 import React from 'react';
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import './header.css';
 import SideMenu from '../sideMenu/sideMenu';
 

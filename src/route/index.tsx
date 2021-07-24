@@ -1,7 +1,7 @@
 import React from 'react';
 import Switch from 'react-bootstrap/esm/Switch';
 import { Route } from 'react-router-dom';
-import NaverMapView from '../componet/map/naverMapView';
+import NaverMapView from '../componet/map/naver/naverMapView';
 import Contact from '../page/contact/contact';
 import Messages from '../page/messages/messages';
 import Pictures from '../page/pictures/pictures';

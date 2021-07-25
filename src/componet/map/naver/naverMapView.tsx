@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import Image from '../model/image';
 import ImagePinInfo from './imagePin/imagePinInfo';
 import { Card } from 'react-bootstrap';
+import { baseUrl } from '../../../config/api';
 
 const NaverMapView: React.FC = () => {
   const [centerLocation, setCenterLocation] = useState(
@@ -156,7 +157,6 @@ const NaverMapView: React.FC = () => {
     getImageListByView();
   }, [naverMap, centerLocation]);
 
-  const baseUrl = 'http://192.168.35.107:3030';
   const createMarker = (image: Image) => {
     console.log(naverMap);
     console.log(image.width, image.height);

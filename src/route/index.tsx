@@ -10,9 +10,9 @@ const Routes: React.FC = () => {
   return (
     <Switch>
       <Route exact path={['/', '/map']} component={NaverMapView} />
-      <Route path="pictures" component={Pictures} />
-      <Route path="messages" component={Messages} />
-      <Route path="contact" component={Contact} />
+      <Route path="/pictures" component={Pictures} />
+      <Route path="/messages" component={Messages} />
+      <Route path="/contact" component={Contact} />
     </Switch>
   );
 };

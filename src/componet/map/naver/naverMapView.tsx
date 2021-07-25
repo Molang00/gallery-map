@@ -3,6 +3,8 @@ import axios from 'axios';
 import './naverMapView.css';
 import { useEffect } from 'react';
 import Image from '../model/image';
+import ImagePinInfo from './imagePin/imagePinInfo';
+import { Card } from 'react-bootstrap';
 
 const NaverMapView: React.FC = () => {
   const [centerLocation, setCenterLocation] = useState(
@@ -154,7 +156,7 @@ const NaverMapView: React.FC = () => {
     getImageListByView();
   }, [naverMap, centerLocation]);
 
-  const baseUrl = 'http://127.0.0.1:3030';
+  const baseUrl = 'http://192.168.35.107:3030';
   const createMarker = (image: Image) => {
     console.log(naverMap);
     console.log(image.width, image.height);
@@ -164,17 +166,45 @@ const NaverMapView: React.FC = () => {
     const imgHeight = meanSize * whRatio;
     console.log(whRatio);
 
-    return new naver.maps.Marker({
+    const marker = new naver.maps.Marker({
       position: new naver.maps.LatLng(image.lat, image.lng),
       map: naverMap,
-      icon: {
-        url: baseUrl + '/resource/image/' + image.path,
-        size: new naver.maps.Size(imgWidth, imgHeight),
-        scaledSize: new naver.maps.Size(imgWidth, imgHeight),
-        origin: new naver.maps.Point(0, 0),
-        anchor: new naver.maps.Point(imgWidth / 2, imgHeight),
-      },
+      // icon: {
+      //   url: baseUrl + '/resource/image/' + image.path,
+      //   size: new naver.maps.Size(imgWidth, imgHeight),
+      //   scaledSize: new naver.maps.Size(imgWidth, imgHeight),
+      //   origin: new naver.maps.Point(0, 0),
+      //   anchor: new naver.maps.Point(imgWidth / 2, imgHeight),
+      // },
     });
+
+    const contentString = [
+      '<div class="infowindow">',
+      ' <img  width="',
+      imgWidth,
+      '" height="',
+      imgHeight,
+      '"',
+      '     src="',
+      baseUrl,
+      '/resource/image/',
+      image.path,
+      '"',
+      '   />',
+      '</div>',
+    ].join('');
+    const infowindow = new naver.maps.InfoWindow({
+      content: contentString,
+    });
+    naver.maps.Event.addListener(marker, 'click', () => {
+      if (infowindow.getMap()) {
+        infowindow.close();
+      } else {
+        infowindow.open(naverMap!, marker);
+      }
+    });
+
+    return marker;
   };
 
   const getImageListByView = async () => {

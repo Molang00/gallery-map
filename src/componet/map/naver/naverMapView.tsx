@@ -162,20 +162,13 @@ const NaverMapView: React.FC = () => {
     console.log(image.width, image.height);
     const whRatio = image.width / (image.width + image.height);
     const meanSize = 200;
-    const imgWidth = meanSize * (1 - whRatio);
-    const imgHeight = meanSize * whRatio;
+    const imgWidth = meanSize * whRatio;
+    const imgHeight = meanSize * (1 - whRatio);
     console.log(whRatio);
 
     const marker = new naver.maps.Marker({
       position: new naver.maps.LatLng(image.lat, image.lng),
       map: naverMap,
-      // icon: {
-      //   url: baseUrl + '/resource/image/' + image.path,
-      //   size: new naver.maps.Size(imgWidth, imgHeight),
-      //   scaledSize: new naver.maps.Size(imgWidth, imgHeight),
-      //   origin: new naver.maps.Point(0, 0),
-      //   anchor: new naver.maps.Point(imgWidth / 2, imgHeight),
-      // },
     });
 
     const contentString = [

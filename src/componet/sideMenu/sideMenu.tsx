@@ -9,12 +9,12 @@ const SideMenu: React.FC = () => {
         Map
       </a>
 
-      <a className="menu-item" href="/pictures">
-        Pictures
+      <a className="menu-item" href="/upload">
+        Upload
       </a>
 
-      <a className="menu-item" href="/messages">
-        Messages
+      <a className="menu-item" href="/board">
+        Board
       </a>
 
       <a className="menu-item" href="/contact">

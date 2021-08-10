@@ -134,23 +134,6 @@ const NaverMapView: React.FC = () => {
       if (naverMap != undefined) {
         naverMap.setCenter(centerLocation);
         console.log(centerLocation);
-
-        // new naver.maps.Marker({
-        //   position: new naver.maps.LatLng(
-        //     37.55522222222222,
-        //     126.94151388888888,
-        //   ),
-        //   map: naverMap,
-        //   icon: {
-        //     url:
-        //       'http://127.0.0.1:3030' +
-        //       '/resource/image/79921d105493a06d2a001067fa2c3d6680.jpg',
-        //     size: new naver.maps.Size(150, 150),
-        //     scaledSize: new naver.maps.Size(150, 150),
-        //     origin: new naver.maps.Point(0, 0),
-        //     anchor: new naver.maps.Point(75, 150),
-        //   },
-        // });
       }
     };
     setMapCenter();
@@ -161,7 +144,7 @@ const NaverMapView: React.FC = () => {
     console.log(naverMap);
     console.log(image.width, image.height);
     const whRatio = image.width / (image.width + image.height);
-    const meanSize = 200;
+    const meanSize = 500;
     const imgWidth = meanSize * whRatio;
     const imgHeight = meanSize * (1 - whRatio);
     console.log(whRatio);
@@ -170,20 +153,23 @@ const NaverMapView: React.FC = () => {
       position: new naver.maps.LatLng(image.lat, image.lng),
       map: naverMap,
     });
+    const imageSrc = baseUrl + '/resource/image/' + image.path;
 
     const contentString = [
-      '<div class="infowindow">',
+      '<div class="infowindow" onClick>',
+      ' <a href="',
+      imageSrc,
+      '" download>',
       ' <img  width="',
       imgWidth,
       '" height="',
       imgHeight,
+      ' "',
+      '      src="',
+      imageSrc,
       '"',
-      '     src="',
-      baseUrl,
-      '/resource/image/',
-      image.path,
-      '"',
-      '   />',
+      '    />',
+      ' </a>',
       '</div>',
     ].join('');
     const infowindow = new naver.maps.InfoWindow({

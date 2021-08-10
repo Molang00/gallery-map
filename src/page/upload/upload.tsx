@@ -4,7 +4,7 @@ import { baseUrl } from '../../config/api';
 import ImageUploader from 'react-images-upload';
 import { Button, CloseButton, ListGroup } from 'react-bootstrap';
 
-const Pictures: React.FC = () => {
+const Upload: React.FC = () => {
   const [pictures, setPictures] = useState<File[]>([]);
 
   const onDrop = (files: File[]) => {
@@ -33,9 +33,6 @@ const Pictures: React.FC = () => {
 
   return (
     <div>
-      <Button variant="dark" onClick={handlePost}>
-        upload images
-      </Button>
       <ImageUploader
         withIcon={true}
         onChange={onDrop}
@@ -44,8 +41,11 @@ const Pictures: React.FC = () => {
         imgExtension={['.jpg', '.gif', '.png', '.jpeg']}
         maxFileSize={10000000}
       />
+      <Button variant="dark" onClick={handlePost}>
+        upload images
+      </Button>
     </div>
   );
 };
 
-export default Pictures;
+export default Upload;

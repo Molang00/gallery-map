@@ -11,7 +11,7 @@ const Routes: React.FC = () => {
     <Switch>
       <Route exact path={['/', '/map']} component={NaverMapView} />
       <Route path="/upload" component={Upload} />
-      <Route path="/message" component={Board} />
+      <Route path="/board" component={Board} />
       <Route path="/contact" component={Contact} />
     </Switch>
   );

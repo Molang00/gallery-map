@@ -1,0 +1,10 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+}
+
+#title {
+  margin-top: 20px;
+}

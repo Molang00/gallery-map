@@ -4,6 +4,7 @@ import './naverMapView.css';
 import { useEffect } from 'react';
 import Image from '../model/image';
 import { baseUrl } from '../../../config/api';
+import EventMessage from '../model/eventMessage';
 
 const NaverMapView: React.FC = () => {
   const [centerLocation, setCenterLocation] = useState(
@@ -19,19 +20,31 @@ const NaverMapView: React.FC = () => {
       lng: 0,
     },
   });
-  const [messages, setMessages] = useState([
-    // "2020.06.30 Tue 😍 1st day",
-    'test message',
-    'test message2',
-  ]);
-  const [messageId, setMessageId] = useState(0);
-  useEffect(() => {
-    const tick = setInterval(() => {
-      setMessageId((messageId + 1) % messages.length);
-    }, 3000);
 
-    return () => clearInterval(tick);
+  const [messages, setMessages] = useState<EventMessage[]>([]);
+  // "2020.06.30 Tue 😍 1st day",
+  const [messageId, setMessageId] = useState(-1);
+  useEffect(() => {
+    if (messageId != -1) {
+      const tick = setInterval(() => {
+        setMessageId((messageId + 1) % messages.length);
+      }, 3000);
+
+      return () => clearInterval(tick);
+    }
   }, [messageId]);
+
+  const getEventMessages = async () => {
+    const endPoint = '/event-message';
+    const response = await axios.get(baseUrl + endPoint);
+    console.log('hi');
+    console.log(response);
+    setMessages(response.data);
+    setMessageId(0);
+  };
+  useEffect(() => {
+    getEventMessages();
+  }, []);
 
   const getCurrentLocation = () => {
     const success = position => {
@@ -39,13 +52,6 @@ const NaverMapView: React.FC = () => {
       setCenterLocation(new naver.maps.LatLng(latitude, longitude));
       console.log(naverMap);
       naverMap?.setCenter(centerLocation);
-      setMessages([
-        ...messages,
-        'currentLocation is ' +
-          centerLocation.lat() +
-          ',' +
-          centerLocation.lng(),
-      ]);
     };
 
     const error = () => {
@@ -60,12 +66,6 @@ const NaverMapView: React.FC = () => {
       setCenterLocation(new naver.maps.LatLng(latitude, longitude));
       console.log(naverMap);
       naverMap?.setCenter(centerLocation);
-      messages.push(
-        'currentLocation is ' +
-          centerLocation.lat() +
-          ',' +
-          centerLocation.lng(),
-      );
     };
 
     navigator.geolocation.getCurrentPosition(success, error);
@@ -213,9 +213,13 @@ const NaverMapView: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div className="message">
-        <div className="message-content">{messages[messageId]}</div>
-      </div>
+      {messageId != -1 ? (
+        <div className="message">
+          <div className="message-content">{messages[messageId].message}</div>
+        </div>
+      ) : (
+        <div />
+      )}
       <div id="react-naver-map"></div>
     </React.Fragment>
   );

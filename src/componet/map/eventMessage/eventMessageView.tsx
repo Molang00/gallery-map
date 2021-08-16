@@ -21,8 +21,6 @@ const EventMessageView: React.FC = () => {
   const getEventMessages = async () => {
     const endPoint = '/event-message';
     const response = await axios.get(baseUrl + endPoint);
-    console.log('hi');
-    console.log(response);
     setMessages(response.data);
     setMessageId(0);
   };

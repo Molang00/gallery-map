@@ -1,0 +1,36 @@
+.gallery-header {
+  float: left;
+  width: 100vw;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.gallery-title {
+  float: left;
+  text-align: left;
+  margin-left: 5vw;
+}
+
+.gallery-filter {
+  margin-left: 5vw;
+  margin-right: 5vw;
+  position: relative;
+}
+
+.gallery-city-filter {
+  width: max-content;
+  height: max-content;
+  margin-top: 10px;
+}
+.gallery-gungu-filter {
+  width: max-content;
+  height: max-content;
+  margin-top: 10px;
+}
+
+.image-carousel {
+  margin-top: 20px;
+  position: relative;
+  max-width: 1000;
+  max-height: 1000;
+}

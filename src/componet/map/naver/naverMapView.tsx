@@ -20,12 +20,26 @@ const NaverMapView: React.FC = () => {
       lng: 0,
     },
   });
+  const setMapBoundsByNaverMap = () => {
+    const bounds = naverMap?.getBounds();
+    if (bounds != undefined) {
+      setMapBounds({
+        leftBottom: {
+          lat: bounds.minY(),
+          lng: bounds.minX(),
+        },
+        rightTop: {
+          lat: bounds.maxY(),
+          lng: bounds.maxX(),
+        },
+      });
+    }
+  };
 
   const getCurrentLocation = () => {
     const success = position => {
       const { latitude, longitude } = position.coords;
       setCenterLocation(new naver.maps.LatLng(latitude, longitude));
-      console.log(naverMap);
       naverMap?.setCenter(centerLocation);
     };
 
@@ -35,11 +49,9 @@ const NaverMapView: React.FC = () => {
 
     const getCurrentLocationByIp = async () => {
       const response = await axios.post('https://geolocation-db.com/json/');
-      console.log(response.data);
       const latitude = response.data.latitude;
       const longitude = response.data.longitude;
       setCenterLocation(new naver.maps.LatLng(latitude, longitude));
-      console.log(naverMap);
       naverMap?.setCenter(centerLocation);
     };
 
@@ -68,36 +80,16 @@ const NaverMapView: React.FC = () => {
       );
     };
     initMap();
-    getCurrentLocation();
   }, []);
 
   useEffect(() => {
+    getCurrentLocation();
     if (naverMap != undefined) {
       naver.maps.Event.addListener(naverMap, 'dragend', function () {
-        const bounds = naverMap.getBounds();
-        setMapBounds({
-          leftBottom: {
-            lat: bounds.minY(),
-            lng: bounds.minX(),
-          },
-          rightTop: {
-            lat: bounds.maxY(),
-            lng: bounds.maxX(),
-          },
-        });
+        setMapBoundsByNaverMap();
       });
       naver.maps.Event.addListener(naverMap, 'zoom_changed', function () {
-        const bounds = naverMap.getBounds();
-        setMapBounds({
-          leftBottom: {
-            lat: bounds.minY(),
-            lng: bounds.minX(),
-          },
-          rightTop: {
-            lat: bounds.maxY(),
-            lng: bounds.maxX(),
-          },
-        });
+        setMapBoundsByNaverMap();
       });
     }
   }, [naverMap]);
@@ -106,25 +98,24 @@ const NaverMapView: React.FC = () => {
     const setMapCenter = () => {
       if (naverMap != undefined) {
         naverMap.setCenter(centerLocation);
-        console.log(centerLocation);
       }
     };
     setMapCenter();
-    getImageListByView();
+    setMapBoundsByNaverMap();
   }, [naverMap, centerLocation]);
 
   const createMarker = (image: Image) => {
-    console.log(naverMap);
-    console.log(image.width, image.height);
     const whRatio = image.width / (image.width + image.height);
     const meanSize = 500;
     const imgWidth = meanSize * whRatio;
     const imgHeight = meanSize * (1 - whRatio);
-    console.log(whRatio);
 
     const marker = new naver.maps.Marker({
       position: new naver.maps.LatLng(image.lat, image.lng),
       map: naverMap,
+      icon: {
+        url: './pin_blue.png',
+      },
     });
     const imageSrc = baseUrl + '/resource/image/' + image.path;
 
@@ -170,11 +161,9 @@ const NaverMapView: React.FC = () => {
     const response = await axios.get(baseUrl + endPoint, {
       params: params,
     });
-    console.log(response);
     setImages(response.data);
     response.data.map(it => {
       if (naverMap != undefined) {
-        console.log('creating markers');
         const marker = createMarker(it);
         marker.setMap(naverMap);
       }

@@ -16,6 +16,7 @@
     "moment": "^2.29.1",
     "react-bootstrap": "^1.6.1",
     "react-burger-menu": "^3.0.6",
+    "react-dropdown": "^1.9.2",
     "react-images-upload": "^1.2.8",
     "react-naver-maps": "^0.0.13",
     "react-router-dom": "^5.2.0",

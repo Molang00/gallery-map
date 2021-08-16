@@ -9,6 +9,10 @@ const SideMenu: React.FC = () => {
         Map
       </a>
 
+      {/* <a className="menu-item" href="/gallery">
+        Gallery
+      </a> */}
+
       <a className="menu-item" href="/upload">
         Upload
       </a>

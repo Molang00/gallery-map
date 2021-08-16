@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { baseUrl } from '../../config/api';
 import ImageUploader from 'react-images-upload';
-import { Button, CloseButton, ListGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 const Upload: React.FC = () => {
   const [pictures, setPictures] = useState<File[]>([]);

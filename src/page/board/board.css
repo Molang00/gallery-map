@@ -1,0 +1,22 @@
+.board-header {
+  float: left;
+  width: 100vw;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.board-title {
+  float: left;
+  text-align: left;
+  margin-left: 5vw;
+}
+
+.board-write {
+  float: right;
+  margin-right: 5vw;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: #343a40;
+  border-color: #343a40;
+  color: #e1e8eb;
+}

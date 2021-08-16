@@ -3,8 +3,6 @@ import axios from 'axios';
 import './naverMapView.css';
 import { useEffect } from 'react';
 import Image from '../model/image';
-import ImagePinInfo from './imagePin/imagePinInfo';
-import { Card } from 'react-bootstrap';
 import { baseUrl } from '../../../config/api';
 
 const NaverMapView: React.FC = () => {
@@ -178,8 +176,8 @@ const NaverMapView: React.FC = () => {
     naver.maps.Event.addListener(marker, 'click', () => {
       if (infowindow.getMap()) {
         infowindow.close();
-      } else {
-        infowindow.open(naverMap!, marker);
+      } else if (naverMap != undefined) {
+        infowindow.open(naverMap, marker);
       }
     });
 
@@ -208,7 +206,7 @@ const NaverMapView: React.FC = () => {
     });
   };
 
-  const [images, setImages] = useState<Image[]>();
+  const [, setImages] = useState<Image[]>();
   useEffect(() => {
     getImageListByView();
   }, [mapBounds]);

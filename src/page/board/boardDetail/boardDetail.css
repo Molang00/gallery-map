@@ -1,0 +1,17 @@
+.board-detail-title {
+  text-align: left;
+  margin-left: 5vw;
+  margin-top: 20px;
+}
+
+.board-detail-table {
+  margin: 20px;
+}
+
+.tag {
+  text-align: left;
+  margin-left: 20px;
+}
+.value {
+  text-align: left;
+}

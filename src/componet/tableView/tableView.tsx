@@ -18,18 +18,21 @@ const TableView = props => {
     return (
       <div id="table-view">
         <Table
+          itemsCount={responseData.meta.totalItems}
+          pageSize={responseData.meta.itemsPerPage}
+          currentPage={responseData.meta.currentPage}
           columns={columns}
-          dataSet={responseData}
+          dataSet={responseData.items}
           onClickRow={onClickRow}
         />
 
         <br />
-        {/* <Pagination
+        <Pagination
           itemsCount={responseData.meta.totalItems}
           pageSize={responseData.meta.itemsPerPage}
           currentPage={responseData.meta.currentPage}
           onPageChange={onPageChange}
-        /> */}
+        />
       </div>
     );
   }

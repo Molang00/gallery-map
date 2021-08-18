@@ -1,11 +1,11 @@
 version: '3.7'
 
 services:
-  sample:
+  prod:
     container_name: react-dockerize
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     volumes:
       - '.:/app'
       - '/app/node_modules'

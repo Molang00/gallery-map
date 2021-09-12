@@ -8,7 +8,16 @@ const Upload: React.FC = () => {
   const [pictures, setPictures] = useState<File[]>([]);
 
   const onDrop = (files: File[]) => {
-    setPictures([...files]);
+    setPictures(files);
+    console.log(files);
+  };
+
+  const removePictures = (fileName: string[]) => {
+    setPictures(
+      pictures.filter(picture => {
+        return fileName.find(name => name === picture.name) == undefined;
+      }),
+    );
   };
 
   const handlePost = () => {
@@ -23,14 +32,24 @@ const Upload: React.FC = () => {
     return axios
       .post(baseUrl + '/image/upload/list', formData)
       .then(res => {
-        alert('성공');
         console.log(res.data);
+        if (res.data.success != 0) {
+          alert(
+            '업로드 완료\n성공: ' + res.data.success + '/' + res.data.total,
+          );
+          // removePictures(
+          //   res.data.imageList.map(image => image.originalFileName),
+          // );
+        } else {
+          alert('업로드 실패');
+        }
       })
       .catch(err => {
-        alert('실패' + err);
+        alert('업로드 실패\n' + err);
       });
   };
 
+  const [flag, setFlag] = useState(false);
   return (
     <div>
       <ImageUploader

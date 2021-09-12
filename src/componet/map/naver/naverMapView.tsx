@@ -3,7 +3,7 @@ import axios from 'axios';
 import './naverMapView.css';
 import { useEffect } from 'react';
 import Image from '../model/image';
-import { baseUrl } from '../../../config/api';
+import { baseUrl, imageBaseUrl } from '../../../config/api';
 import EventMessageView from '../eventMessage/eventMessageView';
 
 const NaverMapView: React.FC = () => {
@@ -117,7 +117,7 @@ const NaverMapView: React.FC = () => {
         url: './pin_blue.png',
       },
     });
-    const imageSrc = baseUrl + '/resource/image/' + image.path;
+    const imageSrc = imageBaseUrl + image.path;
 
     const contentString = [
       '<div class="infowindow" onClick>',
@@ -161,6 +161,7 @@ const NaverMapView: React.FC = () => {
     const response = await axios.get(baseUrl + endPoint, {
       params: params,
     });
+    console.log(response);
     setImages(response.data);
     response.data.map(it => {
       if (naverMap != undefined) {
